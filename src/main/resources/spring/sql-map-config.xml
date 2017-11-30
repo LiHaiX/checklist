@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="safeRowBoundsEnabled" value="false"/>
+        <!-- 持久层采用驼峰式命名 -->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+        <!--<setting name="defaultExecutorType" value="BATCH"/>-->
+    </settings>
+
+    <typeAliases>
+    	<typeAlias alias="mindMapInfo" type="com.qa.tools.model.ChecklistInfo" />
+    </typeAliases>
+
+    <!-- 拦截器，拦截mybatis执行SQL，并控制台输出SQL及运行时间，在开发过程中有需要时可以启用
+    <plugins>
+        <plugin interceptor="com.qunar.flight.b2b.tdx.sale.mybatis.SqlbatisInterceptor"/>
+        <plugin interceptor="com.qunar.flight.tts.basic.mybatis.plugin.UpdateInterceptor"></plugin>
+        <plugin interceptor="com.qunar.flight.tts.basic.mybatis.plugin.StatementInterceptor"></plugin>
+        <plugin interceptor="com.qunar.flight.tts.basic.mybatis.plugin.ResultSizeMonitInterceptor">
+            <property name="monitorSize" value="100000" />
+            <property name="monitorNamePrefix" value="big query result" />
+        </plugin>
+    </plugins>-->
+    <typeHandlers>
+        <typeHandler javaType="java.util.Map" jdbcType="LONGTEXT"
+                     handler="com.jianbai.learn.ibatis.handler.JSONHandler"/>
+        <typeHandler javaType="java.util.List" jdbcType="TEXT"
+                     handler="com.jianbai.learn.ibatis.handler.JSONHandler"/>
+    </typeHandlers>
+    <mappers>
+        <mapper resource="mybatis/mapper/checklistInfoMapper.xml"/>
+    </mappers>
+</configuration>

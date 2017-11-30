@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <!-- 设置日志输出根目录 -->
+    <property name="log.dir" value="${catalina.base}/logs"/>
+    <property name="encoding" value="UTF-8"/>
+    <property name="normal-pattern" value="%d{yyyy-MM-dd.HH:mm:ss} %-5level [%thread] %logger.%M:%L  %msg%n"/>
+    <property name="plain-pattern" value="%d{yyyy-MM-dd.HH:mm:ss} %msg%n"/>
+
+    <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder charset="UTF-8">
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %c:%L] [%thread] [%X{traceId}] [%X{traceUsername}] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="errorlog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>ERROR</level>
+        </filter>
+        <file>${log.dir}/errors.log</file>
+        <prudent>false</prudent>
+        <encoder charset="UTF-8">
+            <pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %c:%L] [%thread] [%X{traceId}] [%X{traceUsername}] %m%n</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${log.dir}/error.%d{yyyy-MM-dd-HH}.log.gz
+            </fileNamePattern>
+        </rollingPolicy>
+    </appender>
+    
+    <!-- AV -->
+	<appender name="avLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}/av.log</file>
+		<prudent>false</prudent>
+		<encoder charset="UTF-8">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %c:%L] [%thread] [%X{traceId}] %m%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}/av.%d{yyyy-MM-dd-HH}.log.gz
+			</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	
+	<!-- PNR -->
+	<appender name="pnrLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}/pnr.log</file>
+		<prudent>false</prudent>
+		<encoder charset="UTF-8">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %c:%L] [%thread] [%X{traceId}] %m%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}/pnr.%d{yyyy-MM-dd-HH}.log.gz
+			</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	
+	<!-- BOOKING -->
+	<appender name="bookingLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}/booking.log</file>
+		<prudent>false</prudent>
+		<encoder charset="UTF-8">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %c:%L] [%thread] [%X{traceId}] %m%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}/booking.%d{yyyy-MM-dd-HH}.log.gz
+			</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	
+	<!-- request and response -->
+	<appender name="requestAndResponseLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}/request_and_response.log</file>
+		<prudent>false</prudent>
+		<encoder charset="UTF-8">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %c:%L] [%thread] [%X{traceId}] %m%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}/request_and_response.%d{yyyy-MM-dd-HH}.log.gz
+			</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	
+	<!-- openapi -->
+	<appender name="openapiLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${log.dir}/openapi.log</file>
+		<prudent>false</prudent>
+		<encoder charset="UTF-8">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss.SSS} %5p %c:%L] [%thread] [%X{traceId}] %m%n</pattern>
+		</encoder>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${log.dir}/openapi.%d{yyyy-MM-dd-HH}.log.gz
+			</fileNamePattern>
+		</rollingPolicy>
+	</appender>
+	
+	<logger name="com.qunar.flight.b2b.tdx.sale.service.av" level="debug" additivity="false">
+		<appender-ref ref="avLog" />
+		<appender-ref ref="errorlog"/>
+	</logger>
+	
+	<logger name="com.qunar.flight.b2b.tdx.sale.service.pnr" level="debug" additivity="false">
+		<appender-ref ref="pnrLog" />
+		<appender-ref ref="errorlog"/>
+	</logger>
+	
+	<logger name="com.qunar.flight.b2b.tdx.sale.service.booking" level="debug" additivity="false">
+		<appender-ref ref="bookingLog" />
+		<appender-ref ref="errorlog"/>
+	</logger>
+
+	<logger name="com.qunar.flight.b2b.tdx.sale.web.controller" level="debug" additivity="false">
+		<appender-ref ref="requestAndResponseLog" />
+		<appender-ref ref="errorlog"/>
+	</logger>
+	
+	<logger name="com.qunar.flight.b2b.tdx.sale.openapi" level="debug" additivity="false">
+		<appender-ref ref="openapiLog" />
+		<appender-ref ref="stdout"/>
+	</logger>
+	
+    <root level="info">
+        <appender-ref ref="stdout"/>
+        <appender-ref ref="errorlog"/>
+    </root>
+</configuration>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.qa.tools.dao.ChecklistInfoDao">
+    <sql id="columns">
+      id
+    </sql>
+
+    <resultMap id="mindMapResult" type="com.qa.tools.model.ChecklistInfo">
+        <result property="creatorId" column="creator_id" />
+        <result property="modifierId" column="modifier_id"/>
+        <result property="version" column="version" />
+        <result property="tags" column="tags" />
+        <result property="jsonContent" column="json_content"/>
+        <result property="comments" column="comments" />
+        <result property="projectId" column="project_id"/>
+        <result property="projectName" column="project_name"/>
+        <result property="templateId" column="template_id"/>
+
+    </resultMap>
+
+    <insert id="newChecklist" useGeneratedKeys="true" keyProperty="id" parameterType="com.qa.tools.model.ChecklistInfo">
+        INSERT INTO checklist
+        (creator_id,modifier_id,version,tags,json_content,comments,project_id,project_name,template_id,createTime,modifyTime)
+        VALUES
+        (#{creatorId,jdbcType=VARCHAR},#{modifierId,jdbcType=VARCHAR},#{version,jdbcType=INTEGER},#{tags,jdbcType=VARCHAR}
+        ,#{jsonContent,jdbcType=VARCHAR},#{comments,jdbcType=VARCHAR},#{projectId,jdbcType=VARCHAR},
+        #{projectName,jdbcType=VARCHAR},#{templateId,jdbcType=INTEGER},now(),now())
+
+    </insert>
+
+    <update id="updateChecklist" parameterType="com.qa.tools.model.ChecklistInfo">
+        UPDATE checklist
+        <set>
+            <if test="modifier_id != null">
+                modifier_id = #{modifierId,jdbcType=INTEGER},
+            </if>
+        </set>
+        <set>
+            <if test="jsonContent != null">
+                json_content = #{jsonContent,jdbcType=VARCHAR},
+            </if>
+        </set>
+        modifyTime = now()
+
+        WHERE id = #{id,jdbcType=INTEGER}
+    </update>
+
+    <select id="selectMindMapInfo" resultMap="mindMapResult" parameterType="long">
+        SELECT
+        *
+        FROM checklist WHERE id = #{id}
+    </select>
+</mapper>
